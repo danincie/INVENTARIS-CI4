@@ -19,6 +19,15 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     
     <style>
+        /* Hilangkan shadow biru (focus ring) pada Select2 */
+        .select2-container--bootstrap-5.select2-container--focus .select2-selection,
+        .select2-container--bootstrap-5.select2-container--open .select2-selection,
+        .select2-container--bootstrap-5 .select2-search .select2-search__field:focus {
+            box-shadow: none !important;
+            border-color: #dee2e6 !important;
+            outline: none !important;
+        }
+
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #ffffff; /* White background for content */
@@ -128,8 +137,8 @@
                 <?php $allWorkspaces = $sidebarWorkspaceModel->findAll(); ?>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= (session()->get('sidebar_active') !== 'workspace' && (url_is('/') || url_is('dashboard*') || url_is('items*'))) ? 'active text-primary bg-primary bg-opacity-10 fw-bold rounded' : '' ?>" href="<?= base_url('dashboard?src=sidebar') ?>" style="font-size: 1rem; padding: 0.75rem 1rem; margin-bottom: 0;">
-                        <i class="bi bi-grid <?= (session()->get('sidebar_active') !== 'workspace' && (url_is('/') || url_is('dashboard*') || url_is('items*'))) ? 'text-primary' : '' ?> me-2" style="font-size: 1.15rem;"></i> Dashboard
+                    <a class="nav-link <?= (session()->get('sidebar_active') !== 'workspace' && (url_is('/') || url_is('dashboard*') || url_is('items*') || url_is('activities*'))) ? 'active text-primary bg-primary bg-opacity-10 fw-bold rounded' : '' ?>" href="<?= base_url('dashboard?src=sidebar') ?>" style="font-size: 1rem; padding: 0.75rem 1rem; margin-bottom: 0;">
+                        <i class="bi bi-grid <?= (session()->get('sidebar_active') !== 'workspace' && (url_is('/') || url_is('dashboard*') || url_is('items*') || url_is('activities*'))) ? 'text-primary' : '' ?> me-2" style="font-size: 1.15rem;"></i> Dashboard
                     </a>
                 </li>
                 
@@ -152,9 +161,9 @@
                             <?php if (count($allWorkspaces) > 0): ?>
                                 <?php foreach($allWorkspaces as $w): ?>
                                     <?php $isActive = (session()->get('active_workspace_id') == $w['id']); ?>
-                                    <li class="nav-item">
-                                        <a class="nav-link <?= (session()->get('sidebar_active') === 'workspace' && $isActive && (url_is('dashboard*') || url_is('items*'))) ? 'text-primary fw-bold bg-transparent' : 'text-secondary bg-transparent fw-medium' ?>" href="<?= base_url('workspaces/select/' . $w['id']) ?>" style="font-size: 0.85rem; padding: 0.35rem 1rem; margin: 0.1rem 0.5rem;">
-                                            <i class="bi bi-journal-text <?= (session()->get('sidebar_active') === 'workspace' && $isActive && (url_is('dashboard*') || url_is('items*'))) ? 'text-primary' : 'text-muted' ?> me-2" style="font-size: 0.95rem;"></i> <?= esc($w['nama_workspace']) ?>
+                                    <li class="nav-item mb-1">
+                                        <a class="nav-link d-flex align-items-center <?= $isActive ? 'text-primary fw-bold bg-primary bg-opacity-10 rounded' : 'text-secondary bg-transparent fw-medium' ?>" href="<?= base_url('workspaces/select/' . $w['id']) ?>" style="font-size: 0.85rem; padding: 0.4rem 1rem; margin: 0 0.5rem;">
+                                            <?= esc($w['nama_workspace']) ?>
                                         </a>
                                     </li>
                                 <?php endforeach; ?>
@@ -215,7 +224,7 @@
             <!-- Page Content -->
             <main class="p-4" style="background-color: #f8f9fc; min-height: calc(100vh - 70px); border-top-left-radius: 1.5rem;">
                 
-                <?php if (session()->get('active_workspace_id') && (url_is('dashboard*') || url_is('items*'))): ?>
+                <?php if (session()->get('active_workspace_id') && (url_is('dashboard*') || url_is('items*') || url_is('activities*'))): ?>
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <ul class="nav nav-pills">
                         <li class="nav-item me-2">
@@ -223,9 +232,14 @@
                                 <i class="bi bi-grid me-1"></i> Dashboard
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item me-2">
                             <a class="nav-link px-3 py-2 <?= url_is('items*') ? 'active shadow-sm' : 'text-secondary bg-white border border-opacity-50' ?>" href="<?= base_url('items') ?>" style="font-size: 0.9rem;">
                                 <i class="bi bi-boxes me-1"></i> Data Barang
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link px-3 py-2 <?= url_is('activities*') ? 'active shadow-sm' : 'text-secondary bg-white border border-opacity-50' ?>" href="<?= base_url('activities') ?>" style="font-size: 0.9rem;">
+                                <i class="bi bi-clock-history me-1"></i> Riwayat
                             </a>
                         </li>
                     </ul>

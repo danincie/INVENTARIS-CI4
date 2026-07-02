@@ -18,15 +18,26 @@ class Items extends BaseController
         $workspaceId = session()->get('active_workspace_id');
         if (!$workspaceId) return redirect()->to('/workspaces')->with('error', 'Silakan buat Gudang pertama Anda terlebih dahulu.');
         
-        $items = $this->itemModel
+        $search = $this->request->getGet('search');
+        
+        $query = $this->itemModel
             ->select('items.*, categories.nama_kategori as kategori')
             ->join('categories', 'categories.id = items.category_id', 'left')
-            ->where('items.workspace_id', $workspaceId)
-            ->findAll();
+            ->where('items.workspace_id', $workspaceId);
+            
+        if (!empty($search)) {
+            $query->groupStart()
+                  ->like('items.nama_barang', $search)
+                  ->orLike('categories.nama_kategori', $search)
+                  ->groupEnd();
+        }
+            
+        $items = $query->findAll();
 
         $data = [
             'title' => 'Data Barang - Inventaris',
-            'items' => $items
+            'items' => $items,
+            'search' => $search
         ];
         return view('items/index', $data);
     }
@@ -84,6 +95,10 @@ class Items extends BaseController
             'harga'        => $postData['harga'],
             'deskripsi'    => $postData['deskripsi'],
         ]);
+        
+        $itemId = $this->itemModel->getInsertID();
+        $activityModel = new \App\Models\ActivityModel();
+        $activityModel->logActivity($workspaceId, $itemId, 'Tambah', "Menambahkan barang baru: {$postData['nama_barang']} (Stok: {$postData['jumlah']})");
 
         session()->setFlashdata('success', 'Barang berhasil ditambahkan.');
         return redirect()->to('/items');
@@ -147,6 +162,22 @@ class Items extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Barang tidak ditemukan.');
         }
 
+        $changes = [];
+        if ($item['jumlah'] != $postData['jumlah']) {
+            $changes[] = "stok dari {$item['jumlah']} ke {$postData['jumlah']}";
+        }
+        if ($item['harga'] != $postData['harga']) {
+            $changes[] = "harga dari Rp" . number_format($item['harga'], 0, ',', '.') . " ke Rp" . number_format($postData['harga'], 0, ',', '.');
+        }
+        if ($item['nama_barang'] != $postData['nama_barang']) {
+            $changes[] = "nama dari '{$item['nama_barang']}' ke '{$postData['nama_barang']}'";
+        }
+        
+        $desc = "Memperbarui data barang: {$postData['nama_barang']}";
+        if (count($changes) > 0) {
+            $desc .= " (" . implode(", ", $changes) . ")";
+        }
+
         $this->itemModel->update($id, [
             'nama_barang' => $postData['nama_barang'],
             'category_id' => $postData['category_id'],
@@ -154,6 +185,9 @@ class Items extends BaseController
             'harga'       => $postData['harga'],
             'deskripsi'   => $postData['deskripsi'],
         ]);
+        
+        $activityModel = new \App\Models\ActivityModel();
+        $activityModel->logActivity($workspaceId, $id, 'Ubah', $desc);
 
         session()->setFlashdata('success', 'Barang berhasil diupdate.');
         return redirect()->to('/items');
@@ -168,6 +202,10 @@ class Items extends BaseController
         
         if ($item) {
             $this->itemModel->delete($id);
+            
+            $activityModel = new \App\Models\ActivityModel();
+            $activityModel->logActivity($workspaceId, $id, 'Hapus', "Menghapus barang: {$item['nama_barang']}");
+            
             session()->setFlashdata('success', 'Barang berhasil dihapus.');
         }
         return redirect()->to('/items');

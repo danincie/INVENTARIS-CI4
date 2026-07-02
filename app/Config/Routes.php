@@ -22,6 +22,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->put('items/update/(:num)', 'Items::update/$1');
     $routes->delete('items/delete/(:num)', 'Items::delete/$1');
 
+    // Activities Route
+    $routes->get('activities', 'Activities::index');
+    $routes->delete('activities/delete/(:num)', 'Activities::delete/$1');
+
     // Workspace Routes
     $routes->get('workspaces', 'Workspace::index');
     $routes->post('workspaces/store', 'Workspace::store');
