@@ -51,9 +51,10 @@
                             </td>
                             <td class="pe-4 py-3 text-end">
                                 <form action="<?= base_url('activities/delete/' . $act['id']) ?>" method="post" class="d-inline">
+                                    <?= csrf_field() ?>
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="btn btn-sm btn-light text-danger rounded-circle border-0 shadow-sm" style="width: 32px; height: 32px;" onclick="return confirm('Apakah Anda yakin ingin menghapus riwayat ini?');" title="Hapus Riwayat">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="bi bi-x-lg"></i>
                                     </button>
                                 </form>
                             </td>
