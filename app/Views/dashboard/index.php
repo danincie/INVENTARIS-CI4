@@ -13,9 +13,7 @@
 <?= $this->extend('layout/main') ?>
 
 <?= $this->section('content') ?>
-<!-- Grid Cards atas -->
 <div class="row g-3 mb-4">
-    <!-- Card Total Barang -->
     <div class="col-md-6 col-lg-3">
         <div class="card h-100 shadow-sm" style="background-color: #eff3f7;">
             <div class="card-body p-3 px-4">
@@ -32,7 +30,6 @@
         </div>
     </div>
     
-    <!-- Card Total Kategori -->
     <div class="col-md-6 col-lg-3">
         <div class="card h-100 shadow-sm" style="background-color: #e4e9f0;">
             <div class="card-body p-3 px-4">
@@ -49,7 +46,6 @@
         </div>
     </div>
 
-    <!-- Card Nilai Aset -->
     <div class="col-md-6 col-lg-3">
         <div class="card h-100 shadow-sm" style="background-color: #eff3f7;">
             <div class="card-body p-3 px-4">
@@ -66,7 +62,6 @@
         </div>
     </div>
 
-    <!-- Card Peringatan Stok -->
     <div class="col-md-6 col-lg-3">
         <div class="card h-100 shadow-sm" style="background-color: #e4e9f0;">
             <div class="card-body p-3 px-4">
@@ -84,9 +79,7 @@
     </div>
 </div>
 
-<!-- Bagian Konten Bawah -->
 <div class="row">
-    <!-- Tabel Barang -->
     <div class="col-lg-12">
         <div class="card rounded-3">
             <div class="card-header bg-white py-3 px-0 border-bottom">
@@ -230,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(document.getElementById('dashboardSearchForm')) {
         document.getElementById('dashboardSearchForm').addEventListener('submit', function(e) {
             if (document.activeElement === searchInput) {
-                e.preventDefault(); // Cegah reload jika enter ditekan di kolom live search
+                e.preventDefault();
             }
         });
     }

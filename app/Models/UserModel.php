@@ -16,7 +16,6 @@ class UserModel extends Model
 
     protected bool $allowEmptyInserts = false;
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';

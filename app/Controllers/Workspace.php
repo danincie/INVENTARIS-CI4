@@ -64,7 +64,6 @@ class Workspace extends BaseController
             'deskripsi' => $this->request->getPost('deskripsi')
         ]);
 
-        // Update session jika yang diedit adalah gudang yang sedang aktif
         if (session()->get('active_workspace_id') == $id) {
             session()->set('active_workspace_name', $this->request->getPost('nama_workspace'));
         }
@@ -76,16 +75,13 @@ class Workspace extends BaseController
     {
         $this->workspaceModel->delete($id);
 
-        // Jika gudang yang dihapus adalah gudang yang sedang aktif
         if (session()->get('active_workspace_id') == $id) {
             $otherWorkspace = $this->workspaceModel->first();
             
             if ($otherWorkspace) {
-                // Pindah ke gudang lain secara otomatis
                 session()->set('active_workspace_id', $otherWorkspace['id']);
                 session()->set('active_workspace_name', $otherWorkspace['nama_workspace']);
             } else {
-                // Tidak ada gudang yang tersisa, masuk ke mode kosong
                 session()->remove('active_workspace_id');
                 session()->remove('active_workspace_name');
             }

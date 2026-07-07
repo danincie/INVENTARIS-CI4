@@ -30,11 +30,10 @@ class Dashboard extends BaseController
                               ->where('items.workspace_id', $workspaceId)
                               ->findAll();
         
-        // Kumpulkan data yang lebih detail
         $lowStockItems = [];
         
         foreach($allItems as $item) {
-            $total_items += $item['jumlah']; // Total unit fisik
+            $total_items += $item['jumlah'];
             $total_value += ($item['harga'] * $item['jumlah']);
             
             if ($item['jumlah'] < 5) {
@@ -45,7 +44,6 @@ class Dashboard extends BaseController
         $categoriesList = $categoryModel->where('workspace_id', $workspaceId)->findAll();
         $total_categories = count($categoriesList);
         
-        // Filter & Sortir
         $sort = $this->request->getGet('sort') ?? 'terbaru';
         $filter_kategori = $this->request->getGet('category_id');
         
@@ -79,7 +77,6 @@ class Dashboard extends BaseController
                 break;
         }
         
-        // Ambil barang untuk ditampilkan di tabel bawah
         $recentItems = $query->findAll(10);
         
         $data = [

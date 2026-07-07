@@ -12,7 +12,6 @@ class Items extends ResourceController
 
     public function index()
     {
-        // Join dengan tabel categories agar response API menampilkan nama_kategori
         $data = $this->model->select('items.*, categories.nama_kategori')
                             ->join('categories', 'categories.id = items.category_id', 'left')
                             ->findAll();
@@ -32,7 +31,6 @@ class Items extends ResourceController
 
     public function create()
     {
-        // Tambahan validasi untuk workspace_id karena diperlukan oleh database
         $rules = $this->model->getValidationRules();
         $rules['workspace_id'] = 'required|is_natural_no_zero';
         
@@ -59,7 +57,6 @@ class Items extends ResourceController
     {
         $rules = $this->model->getValidationRules();
 
-        // ngambil inputan dari method PUT
         $input = $this->request->getRawInput();
         
         if (!$this->validate($rules)) {

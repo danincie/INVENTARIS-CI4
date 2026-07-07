@@ -16,13 +16,11 @@ class ItemModel extends Model
 
     protected bool $allowEmptyInserts = false;
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    // Validation
     protected $validationRules      = [
         'nama_barang' => 'required|min_length[3]|max_length[255]',
         'category_id' => 'required|is_natural_no_zero',

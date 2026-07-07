@@ -4,22 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'Inventaris Barang' ?></title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     
-    <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
     
-    <!-- jQuery (required for Select2) -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     
     <style>
-        /* Hilangkan shadow biru (focus ring) pada Select2 */
         .select2-container--bootstrap-5.select2-container--focus .select2-selection,
         .select2-container--bootstrap-5.select2-container--open .select2-selection,
         .select2-container--bootstrap-5 .select2-search .select2-search__field:focus {
@@ -30,23 +24,23 @@
 
         body {
             font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #ffffff; /* White background for content */
+            background-color: #ffffff; 
             color: #334155;
         }
         .sidebar {
             width: 260px;
-            background-color: #e4e9f0; /* Slightly darker slate to differentiate from main content */
+            background-color: #e4e9f0; 
             min-height: 100vh;
             color: #334155;
-            border-right: 0; /* Removed border */
+            border-right: 0; 
             transition: all 0.3s ease;
         }
         .sidebar-brand {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            padding: 1.25rem 1.5rem 0.5rem 1.5rem; /* Custom padding instead of fixed height */
-            font-size: 1.15rem; /* Reduced from 1.25rem */
+            padding: 1.25rem 1.5rem 0.5rem 1.5rem; 
+            font-size: 1.15rem; 
             font-weight: 700;
             color: #0f172a;
             text-decoration: none;
@@ -71,8 +65,8 @@
             background-color: #f1f5f9;
         }
         .sidebar .nav-link.active {
-            color: #1d4ed8; /* Blue text */
-            background-color: #eff6ff; /* Light blue background */
+            color: #1d4ed8; 
+            background-color: #eff6ff; 
             font-weight: 600;
         }
         .sidebar .nav-link i {
@@ -84,16 +78,16 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            background-color: #e4e9f0; /* Match sidebar and topbar */
+            background-color: #e4e9f0; 
         }
         .topbar {
             height: 70px;
             background-color: #e4e9f0;
-            border-bottom: 0; /* Removed border */
+            border-bottom: 0; 
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 1.5rem; /* Sejajar dengan p-4 (1.5rem) pada main content */
+            padding: 0 1.5rem; 
         }
         .page-content {
             padding: 2rem;
@@ -125,7 +119,6 @@
 </head>
 <body>
     <div class="d-flex">
-        <!-- sidebar kiri -->
         <nav class="sidebar d-none d-md-block">
             <a href="<?= base_url('dashboard') ?>" class="sidebar-brand">
                 <i class="bi bi-box-seam" style="font-size: 1.3rem;"></i> 
@@ -178,9 +171,7 @@
             </ul>
         </nav>
 
-        <!-- bagian konten -->
         <div class="main-content">
-            <!-- navbar atas -->
             <header class="topbar">
                 <?php $globalWorkspaceModel = new \App\Models\WorkspaceModel(); ?>
                 <?php if (!url_is('workspaces*')): ?>
@@ -208,7 +199,7 @@
                     </ul>
                 </div>
                 <?php else: ?>
-                <div><!-- Spacer for flexbox when dropdown is hidden --></div>
+                <div></div>
                 <?php endif; ?>
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle text-decoration-none text-secondary d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -221,7 +212,6 @@
                 </div>
             </header>
 
-            <!-- Page Content -->
             <main class="p-4" style="background-color: #f8f9fc; min-height: calc(100vh - 70px); border-top-left-radius: 1.5rem;">
                 
                 <?php if (session()->get('active_workspace_id') && (url_is('dashboard*') || url_is('items*') || url_is('activities*'))): ?>
@@ -251,14 +241,11 @@
                 </div>
                 <?php endif; ?>
 
-
-
                 <?= $this->renderSection('content') ?>
             </main>
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container position-fixed top-0 end-0 p-4" style="z-index: 1090; margin-top: 20px;">
         <?php if (session()->getFlashdata('success')): ?>
             <div class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
@@ -285,13 +272,10 @@
         <?php endif; ?>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Initialize Toasts -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var toastElList = [].slice.call(document.querySelectorAll('.toast'));

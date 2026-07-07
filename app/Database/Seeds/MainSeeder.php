@@ -8,7 +8,6 @@ class MainSeeder extends Seeder
 {
     public function run()
     {
-        // Akun Admin Default
         $dataPengguna = [
             [
                 'username'   => 'admin',
@@ -19,7 +18,6 @@ class MainSeeder extends Seeder
         ];
         $this->db->table('users')->insertBatch($dataPengguna);
 
-        // Data Awal Barang
         $dataBarang = [
             [
                 'nama_barang' => 'Laptop ASUS ROG',

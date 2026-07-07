@@ -8,7 +8,6 @@ class AlterItemsCategory extends Migration
 {
     public function up()
     {
-        // 1. Add category_id column
         $this->forge->addColumn('items', [
             'category_id' => [
                 'type'       => 'INT',
@@ -18,19 +17,16 @@ class AlterItemsCategory extends Migration
             ],
         ]);
 
-        // 2. Migrate existing categories from string to the categories table
         $db = \Config\Database::connect();
         
-        // Find distinct categories
         $query = $db->query("SELECT DISTINCT workspace_id, kategori FROM items WHERE kategori IS NOT NULL AND kategori != ''");
         $results = $query->getResultArray();
         
-        $categoryMap = []; // workspace_id => [ nama_kategori => category_id ]
+        $categoryMap = [];
         foreach ($results as $row) {
             $workspaceId = $row['workspace_id'];
             $kategoriName = $row['kategori'];
             
-            // Insert into categories
             $db->table('categories')->insert([
                 'workspace_id'  => $workspaceId,
                 'nama_kategori' => $kategoriName,
@@ -45,7 +41,6 @@ class AlterItemsCategory extends Migration
             $categoryMap[$workspaceId][$kategoriName] = $catId;
         }
 
-        // 3. Update items table with category_id
         $itemsQuery = $db->table('items')->get();
         foreach ($itemsQuery->getResultArray() as $item) {
             $wId = $item['workspace_id'];
@@ -57,7 +52,6 @@ class AlterItemsCategory extends Migration
             }
         }
 
-        // 4. Drop old kategori column and add foreign key
         $this->forge->dropColumn('items', 'kategori');
         
         $db->query('ALTER TABLE `items` ADD CONSTRAINT `items_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`) ON DELETE SET NULL ON UPDATE CASCADE');
@@ -76,7 +70,6 @@ class AlterItemsCategory extends Migration
         $db = \Config\Database::connect();
         $db->query('ALTER TABLE `items` DROP FOREIGN KEY `items_category_id_foreign`');
 
-        // Restore strings
         $query = $db->query("SELECT items.id, categories.nama_kategori FROM items JOIN categories ON items.category_id = categories.id");
         foreach($query->getResultArray() as $row) {
             $db->table('items')->where('id', $row['id'])->update(['kategori' => $row['nama_kategori']]);

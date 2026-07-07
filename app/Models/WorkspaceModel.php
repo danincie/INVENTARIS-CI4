@@ -14,7 +14,6 @@ class WorkspaceModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['nama_workspace', 'deskripsi'];
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';

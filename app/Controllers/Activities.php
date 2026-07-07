@@ -13,7 +13,6 @@ class Activities extends BaseController
         
         $activityModel = new ActivityModel();
         
-        // Pagination setup
         $perPage = 20;
         $activities = $activityModel->where('workspace_id', $workspaceId)
                                     ->orderBy('created_at', 'DESC')

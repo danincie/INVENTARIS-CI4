@@ -66,7 +66,6 @@
     <?php endforeach; ?>
 </div>
 
-<!-- Modal Tambah Gudang -->
 <div class="modal fade" id="addWorkspaceModal" tabindex="-1" aria-labelledby="addWorkspaceModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,7 +94,6 @@
     </div>
 </div>
 
-<!-- Modals Edit Gudang untuk setiap Gudang -->
 <?php foreach ($workspaces as $w) : ?>
 <div class="modal fade" id="editWorkspaceModal<?= $w['id'] ?>" tabindex="-1" aria-labelledby="editWorkspaceModalLabel<?= $w['id'] ?>" aria-hidden="true">
     <div class="modal-dialog">

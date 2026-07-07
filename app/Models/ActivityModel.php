@@ -14,11 +14,10 @@ class ActivityModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = ['workspace_id', 'item_id', 'action', 'description', 'created_at'];
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
-    protected $updatedField  = ''; // No updated_at needed for append-only log
+    protected $updatedField  = '';
 
     public function logActivity(int|string $workspaceId, int|string|null $itemId, string $action, string $description)
     {

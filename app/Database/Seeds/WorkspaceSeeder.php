@@ -11,7 +11,6 @@ class WorkspaceSeeder extends Seeder
         $db = \Config\Database::connect();
         $builder = $db->table('workspaces');
         
-        // Cek apakah sudah ada workspace
         if ($builder->countAllResults() == 0) {
             $data = [
                 'nama_workspace' => 'Gudang Utama (Default)',
@@ -22,7 +21,6 @@ class WorkspaceSeeder extends Seeder
             $builder->insert($data);
             $workspaceId = $db->insertID();
             
-            // Pindahkan semua barang lama ke gudang utama agar tidak hilang
             $db->table('items')->update(['workspace_id' => $workspaceId], "workspace_id IS NULL");
         }
     }

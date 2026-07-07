@@ -88,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const tableBody = document.getElementById('itemsTableBody');
     const rows = tableBody.getElementsByTagName('tr');
     
-    // Buat baris "tidak ditemukan" secara dinamis
     const noResultsRow = document.createElement('tr');
     noResultsRow.id = 'noResultsRow';
     noResultsRow.style.display = 'none';
@@ -100,13 +99,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let hasVisibleRows = false;
         
         for (let i = 0; i < rows.length; i++) {
-            // Lewati baris "tidak ditemukan" atau baris data kosong default
             if (rows[i].id === 'noResultsRow' || rows[i].querySelector('td[colspan="7"]')) {
                 continue;
             }
             
-            const nameCol = rows[i].getElementsByTagName('td')[1]; // Nama Barang
-            const catCol = rows[i].getElementsByTagName('td')[2]; // Kategori
+            const nameCol = rows[i].getElementsByTagName('td')[1];
+            const catCol = rows[i].getElementsByTagName('td')[2];
             
             if (nameCol || catCol) {
                 const nameText = nameCol.textContent || nameCol.innerText;
@@ -121,7 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Tampilkan pesan jika tidak ada baris yang cocok dan filter tidak kosong, serta data aslinya memang tidak kosong
         const emptyStateRow = document.querySelector('#itemsTableBody > tr > td[colspan="7"]');
         if (!hasVisibleRows && filter !== '' && (!emptyStateRow || emptyStateRow.parentElement.id === 'noResultsRow')) {
             noResultsRow.style.display = '';
@@ -130,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Mencegah form disubmit saat menekan enter agar filter tetap client-side (SPA feel)
     document.getElementById('searchForm').addEventListener('submit', function(e) {
         e.preventDefault();
     });

@@ -16,13 +16,11 @@ class CategoryModel extends Model
 
     protected bool $allowEmptyInserts = false;
 
-    // Dates
     protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
 
-    // Validation
     protected $validationRules      = [
         'nama_kategori' => 'required|min_length[2]|max_length[100]',
     ];
